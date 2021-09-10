@@ -1,8 +1,23 @@
+const url = "img/characters"
+
 function initialize(){
 	console.log("Initializing Smoelentrainer...")
 	//Load the images
-	const url = "img/characters"
-	console.log(httpGet(url))
+	
+	htmlResponse = httpGet(url)
+	var domResponse = new DOMParser().parseFromString(htmlResponse, "text/html")
+	console.log(domResponse)
+
+	imageLinks = domResponse.getElementsByTagName("a")
+	
+	console.log( imageLinks)
+	for(i=0;i<imageLinks.length; i++){
+		possibleLink = imageLinks[i]
+
+		if(possibleLink.href.includes(".png")){
+			console.log(possibleLink)
+		}
+	}
 	//create a list with names
 
 	//Randomize images
