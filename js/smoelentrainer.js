@@ -6,6 +6,9 @@ var randomNames = []
 var selectedName = undefined
 var selectedPhoto = undefined
 
+var attempts = 0
+var matches = 0
+
 function initialize(){
 	console.log("Initializing Smoelentrainer...")
 	//Load the images
@@ -109,6 +112,14 @@ function onNameClicked(nameLI){
 
 			selectedPhoto = undefined
 			selectedName = undefined
+
+			attempts++
+			matches++
+			drawScoreBoard()
+
+		}else{
+			attempts++
+			drawScoreBoard()
 		}
 	}
 
@@ -118,6 +129,11 @@ function onNameClicked(nameLI){
 		console.log("You win!")
 		window.location.replace("/")
 	}
+}
+
+function drawScoreBoard(){
+	const scoreDiv = document.getElementById("scoreDiv")
+	scoreDiv.innerHTML = "<p>"+attempts + " Pogingen " + matches + " Matches</p>"
 }
 
 function onPhotoClicked(photoLI){
@@ -144,6 +160,13 @@ function onPhotoClicked(photoLI){
 
 			selectedPhoto = undefined
 			selectedName = undefined
+			
+			attempts++
+			matches++
+			drawScoreBoard()
+		}else{
+			attempts++
+			drawScoreBoard()
 		}
 	}
 
