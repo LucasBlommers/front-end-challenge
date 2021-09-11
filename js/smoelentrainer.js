@@ -46,7 +46,7 @@ function initialize(){
 		photoListItem.addEventListener("click", function(){
 			onPhotoClicked(photoListItem)
 		})
-		photoListItem.innerHTML = "<img class='img-thumbnail' src='" +randomLinks[i] +"'>"
+		photoListItem.innerHTML = "<img src='" +randomLinks[i] +"'>"
 		photoUL.append(photoListItem)
 	}
 
