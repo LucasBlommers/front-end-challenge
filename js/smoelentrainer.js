@@ -1,6 +1,10 @@
 const url = "img/characters"
 var links = []
 var randomLinks = []
+var randomNames = []
+
+var selectedName = undefined
+var selectedPhoto = undefined
 
 function initialize(){
 	console.log("Initializing Smoelentrainer...")
@@ -31,21 +35,45 @@ function initialize(){
 
 	//Generate images list
 	const photosDiv = document.getElementById("photosDiv")
-	const imageUL = document.createElement("ul")
+	const photoUL = document.createElement("ul")
 
 	for(i = 0; i< randomLinks.length;i++){
-		const imageListItem = document.createElement("li")
-		imageListItem.innerHTML = "<img class='img-thumbnail' src='" +randomLinks[i] +"'>"
-		imageUL.append(imageListItem)
+		const photoListItem = document.createElement("li")
+		photoListItem.className = "list-group-item"
+		photoListItem.addEventListener("click", function(){
+			onPhotoClicked(photoListItem)
+		})
+		photoListItem.innerHTML = "<img class='img-thumbnail' src='" +randomLinks[i] +"'>"
+		photoUL.append(photoListItem)
 	}
 
-	photosDiv.append(imageUL)
+	photosDiv.append(photoUL)
 
-	//create a list with names
-	
-	//Randomize names	
+	//create a random list with names
+	const randomLinksSize = randomLinks.length
 
+	for(i=0;i<randomLinksSize;i++){
+		randomLinkIndex = Math.floor(Math.random() *randomLinks.length)
+		randomNames.push(randomLinks[randomLinkIndex])
+		randomLinks.splice(randomLinkIndex, 1)
+	}
 	//Generate names list
+	console.log("Random sorted names: " + randomNames)
+	const namesDiv = document.getElementById("namesDiv")
+	const namesUL = document.createElement("ul")
+	namesUL.id = "namesUL"
+	for(i=0;i<randomNames.length;i++){
+		const nameLI = document.createElement("li")
+		
+		nameLI.className = "list-group-item"
+		nameLI.innerText = randomNames[i]
+		nameLI.addEventListener("click", function(){
+			onNameClicked(nameLI)
+		})
+
+		namesUL.append(nameLI)
+	}
+	namesDiv.append(namesUL)
 }
 
 function httpGet(url){
@@ -53,4 +81,76 @@ function httpGet(url){
 	xmlHttp.open("GET", url, false)
 	xmlHttp.send(null)
 	return xmlHttp.responseText
+}
+
+function onNameClicked(nameLI){
+	console.log("You've clicked a name: " + nameLI)
+
+	if(nameLI.className == "list-group-item active"){
+		nameLI.className = "list-group-item"
+		
+	}else{
+		nameLI.className = "list-group-item active"
+	}
+	//Change the selcted name
+	if(selectedName != undefined){
+		selectedName.className = "list-group-item"
+		selectedName = nameLI
+		
+	}else{
+		selectedName = nameLI
+	}
+	//Try to match photo with name
+	if(selectedPhoto != undefined){
+		if(selectedPhoto.innerHTML.includes(selectedName.innerText)){
+			console.log("You've got a match")
+			selectedName.remove()
+			selectedPhoto.remove()
+
+			selectedPhoto = undefined
+			selectedName = undefined
+		}
+	}
+
+	//if namesUL.children.length = 0 finish
+	const namesUL = document.getElementById("namesUL")
+	if(namesUL.children.length == 0){
+		console.log("You win!")
+		window.location.replace("/")
+	}
+}
+
+function onPhotoClicked(photoLI){
+	if(photoLI.className == "list-group-item active"){
+		photoLI.className = "list-group-item"
+	}else{
+		photoLI.className = "list-group-item active"
+	}
+	//Change the selcted name
+	if(selectedPhoto != undefined){
+		selectedPhoto.className = "list-group-item"
+		selectedPhoto = photoLI
+		
+	}else{
+		selectedPhoto = photoLI
+	}
+
+	//Try to match photo with name
+	if(selectedName != undefined){
+		if(selectedPhoto.innerHTML.includes(selectedName.innerText)){
+			console.log("You've got a match")
+			selectedName.remove()
+			selectedPhoto.remove()
+
+			selectedPhoto = undefined
+			selectedName = undefined
+		}
+	}
+
+	//if namesUL.children.length = 0 finish
+	const namesUL = document.getElementById("namesUL")
+	if(namesUL.children.length == 0){
+		console.log("You win!")
+		window.location.replace("/")
+	}
 }
