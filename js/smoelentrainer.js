@@ -14,6 +14,7 @@ var trainerInterval = undefined
 var startTime = undefined
 var timeLimit = 1000 * 60
 var endTime = undefined
+var progress = "100%"
 
 function initialize(){
 	console.log("Initializing Smoelentrainer...")
@@ -88,9 +89,18 @@ function initialize(){
 	if(timer){
 		//Set start time
 		startTime = new Date().getTime()
-		
 		endTime = new Date(startTime + timeLimit)
 		
+		const timerP = document.getElementById("p-timer")
+		timerP.innerText = "Timer: " + "0" + " / " + (timeLimit / 1000)
+
+		//Setup the progress bar
+		const divProgress = document.getElementById("div-progress")
+		const divProgressbar = document.getElementById("div-progress-bar")
+
+		divProgress.removeAttribute("hidden")
+		divProgressbar.setAttribute("style", "width:"+ progress)
+
 		trainerInterval = setInterval(function(){
 			updateTimer()
 		}, 1000)
@@ -99,14 +109,20 @@ function initialize(){
 
 function updateTimer(){
 	const currentTime = new Date().getTime()
-	
+	//Update the timer
 	console.log("Time elapsed:" +(( currentTime - startTime) / 1000))
 	const timeElapsed = parseInt((currentTime - startTime) / 1000)
 
 	const timerP = document.getElementById("p-timer")
 	
-	timerP.innerText = timeElapsed + " / " + (timeLimit / 1000)
-	
+	timerP.innerText = "Timer: " + timeElapsed + " / " + (timeLimit / 1000)
+	//Update the progressbar
+	const timeLeft = (endTime - currentTime)
+	totalTime = (endTime - startTime) / 1000
+	progress = ((timeLeft / totalTime)/10) + "%"
+
+	document.getElementById("div-progress-bar").setAttribute("style", "width:"+progress)
+
 	if(currentTime >= endTime){
 		console.log("Time's up")
 		clearInterval(trainerInterval)
