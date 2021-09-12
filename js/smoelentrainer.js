@@ -9,6 +9,12 @@ var selectedPhoto = undefined
 var attempts = 0
 var matches = 0
 
+var timer = undefined
+var trainerInterval = undefined
+var startTime = undefined
+var timeLimit = 1000 * 60
+var endTime = undefined
+
 function initialize(){
 	console.log("Initializing Smoelentrainer...")
 	
@@ -78,6 +84,34 @@ function initialize(){
 		namesUL.append(nameLI)
 	}
 	namesDiv.append(namesUL)
+
+	if(timer){
+		//Set start time
+		startTime = new Date().getTime()
+		
+		endTime = new Date(startTime + timeLimit)
+		
+		trainerInterval = setInterval(function(){
+			updateTimer()
+		}, 1000)
+	}
+}
+
+function updateTimer(){
+	const currentTime = new Date().getTime()
+	
+	console.log("Time elapsed:" +(( currentTime - startTime) / 1000))
+	const timeElapsed = parseInt((currentTime - startTime) / 1000)
+
+	const timerP = document.getElementById("p-timer")
+	
+	timerP.innerText = timeElapsed + " / " + (timeLimit / 1000)
+	
+	if(currentTime >= endTime){
+		console.log("Time's up")
+		clearInterval(trainerInterval)
+		return
+	}
 }
 
 //Load Smoelentrainer
@@ -92,13 +126,6 @@ function loadMain(url){
 	if(url.includes("smoelentrainer")){
 		initialize()
 	}
-}
-
-function httpGet(url){
-	var xmlHttp = new XMLHttpRequest()
-	xmlHttp.open("GET", url, false)
-	xmlHttp.send(null)
-	return xmlHttp.responseText
 }
 
 function onNameClicked(nameLI){
@@ -190,5 +217,20 @@ function onPhotoClicked(photoLI){
 	if(namesUL.children.length == 0){
 		console.log("You win!")
 		window.location.replace("/")
+	}
+}
+
+function httpGet(url){
+	var xmlHttp = new XMLHttpRequest()
+	xmlHttp.open("GET", url, false)
+	xmlHttp.send(null)
+	return xmlHttp.responseText
+}
+
+function switchTimer(){
+	if(timer == undefined){
+		timer = true
+	}else{
+		timer = undefined
 	}
 }
