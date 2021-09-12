@@ -1,0 +1,28 @@
+body{
+	background-color: coral;
+}
+
+.btn-primary{
+	background-color: red;
+	border-color:salmon;
+}
+
+.center{
+	margin-right: auto;
+	margin-left: auto;
+}
+
+
+#group-photo{
+	width: 40rem;
+	height: auto;
+}
+
+.list-group-horizontal{
+	flex-direction: row;
+}
+
+.list-group-item.active{
+	background-color: red;
+	border-color:salmon;
+}

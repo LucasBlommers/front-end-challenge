@@ -1,0 +1,28 @@
+body{
+	background-color: lightgreen;
+}
+
+.btn-primary{
+	background-color: green;
+	border: 0.1rem solid greenyellow;
+}
+
+.center{
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.list-group-item.active{
+	background-color: green;
+	border: 0.1rem solid greenyellow;
+}
+
+.list-group-horizontal{
+	flex-direction: row;
+}
+
+
+#group-photo{
+	width: 40rem;
+	height: auto;
+}

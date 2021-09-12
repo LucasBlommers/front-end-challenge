@@ -11,6 +11,7 @@ var matches = 0
 
 function initialize(){
 	console.log("Initializing Smoelentrainer...")
+	
 	//Load the images
 	htmlResponse = httpGet(url)
 	var domResponse = new DOMParser().parseFromString(htmlResponse, "text/html")
@@ -77,6 +78,20 @@ function initialize(){
 		namesUL.append(nameLI)
 	}
 	namesDiv.append(namesUL)
+}
+
+//Load Smoelentrainer
+function loadMain(url){
+	
+	const htmlResponse = httpGet(url)
+	var domResponse = new DOMParser().parseFromString(htmlResponse, "text/html")
+
+	const main = document.getElementById("main")
+	main.innerHTML = htmlResponse
+
+	if(url.includes("smoelentrainer")){
+		initialize()
+	}
 }
 
 function httpGet(url){

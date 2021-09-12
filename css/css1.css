@@ -1,6 +1,14 @@
+body{
+	background-color: aqua;
+}
+
 .center{
 	margin-right: auto;
 	margin-left: auto;
+}
+
+.list-group-horizontal{
+	flex-direction: row;
 }
 
 #group-photo{
