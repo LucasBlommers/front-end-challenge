@@ -20,7 +20,7 @@ var progress = "100%"
 
 function initialize(){
 	console.log("Initializing Smoelentrainer...")
-	
+	randomNames = []
 	loadImages()
 	amount = links.length
 	loadSettings()
@@ -176,6 +176,10 @@ function loadMain(url){
 			numAmount.value = amount
 		}
 	}
+
+	if(url.includes("history")){
+		loadHistory()
+	}
 }
 
 function onNameClicked(nameLI){
@@ -219,13 +223,9 @@ function onNameClicked(nameLI){
 	const namesUL = document.getElementById("namesUL")
 	if(namesUL.children.length == 0){
 		console.log("You win!")
+		saveHistory(attempts, matches)
 		loadMain("/result.html")
 	}
-}
-
-function drawScoreBoard(){
-	const scoreDiv = document.getElementById("scoreDiv")
-	scoreDiv.innerHTML = "<p>"+attempts + " Pogingen " + matches + " Matches</p>"
 }
 
 function onPhotoClicked(photoLI){
@@ -266,6 +266,7 @@ function onPhotoClicked(photoLI){
 	const namesUL = document.getElementById("namesUL")
 	if(namesUL.children.length == 0){
 		console.log("You win!")
+		saveHistory(attempts, matches)
 		loadMain("/result.html")
 	}
 }
@@ -275,6 +276,11 @@ function httpGet(url){
 	xmlHttp.open("GET", url, false)
 	xmlHttp.send(null)
 	return xmlHttp.responseText
+}
+
+function drawScoreBoard(){
+	const scoreDiv = document.getElementById("scoreDiv")
+	scoreDiv.innerHTML = "<p>"+attempts + " Pogingen " + matches + " Matches</p>"
 }
 
 function loadSettings(){
@@ -289,7 +295,6 @@ function loadSettings(){
 	if(loadedAmount != undefined){
 		amount = Number(loadedAmount)
 	}
-
 }
 
 function loadImages(){
