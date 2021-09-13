@@ -63,6 +63,6 @@ function loadHistory(){
 function generateDateString(){
     const date = new Date()
 
-    const dateString = date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate()
+    const dateString = date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + " - " + date.getHours() + ":" + date.getMinutes()
     return dateString
 }
