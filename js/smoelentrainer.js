@@ -126,6 +126,7 @@ function updateTimer(){
 	if(currentTime >= endTime){
 		console.log("Time's up")
 		clearInterval(trainerInterval)
+		loadMain("/result.html")
 		return
 	}
 }
@@ -141,6 +142,15 @@ function loadMain(url){
 
 	if(url.includes("smoelentrainer")){
 		initialize()
+	}
+
+	if(url.includes("result")){
+		const pAttempts = document.getElementById("p-attempts")
+		const pMatches = document.getElementById("p-matches")
+
+		pAttempts.innerText = attempts
+		pMatches.innerText = matches
+
 	}
 }
 
@@ -185,7 +195,7 @@ function onNameClicked(nameLI){
 	const namesUL = document.getElementById("namesUL")
 	if(namesUL.children.length == 0){
 		console.log("You win!")
-		window.location.replace("/")
+		loadMain("/result.html")
 	}
 }
 
@@ -232,7 +242,7 @@ function onPhotoClicked(photoLI){
 	const namesUL = document.getElementById("namesUL")
 	if(namesUL.children.length == 0){
 		console.log("You win!")
-		window.location.replace("/")
+		loadMain("/result.html")
 	}
 }
 
