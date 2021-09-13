@@ -18,7 +18,7 @@ var progress = "100%"
 
 function initialize(){
 	console.log("Initializing Smoelentrainer...")
-	
+	loadSettings()
 	//Load the images
 	htmlResponse = httpGet(url)
 	var domResponse = new DOMParser().parseFromString(htmlResponse, "text/html")
@@ -152,6 +152,18 @@ function loadMain(url){
 		pMatches.innerText = matches
 
 	}
+
+	if(url.includes("settings")){
+		//Load the settings
+		const loadedTimer = localStorage.getItem("timer")
+
+		//Ensure elements are set based on the saved settings
+		if(loadedTimer != undefined){
+			const cbTimer = document.getElementById("cb-timer")
+			cbTimer.setAttribute("checked", "true")
+		}
+
+	}
 }
 
 function onNameClicked(nameLI){
@@ -253,10 +265,7 @@ function httpGet(url){
 	return xmlHttp.responseText
 }
 
-function switchTimer(){
-	if(timer == undefined){
-		timer = true
-	}else{
-		timer = undefined
-	}
+function loadSettings(){
+	//Load timer setting
+	timer = localStorage.getItem("timer")
 }
