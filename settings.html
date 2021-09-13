@@ -7,7 +7,6 @@
 </div>
 
 <div class="row">
-    <div class="col-sm"></div>
     <div class="col-sm">
         <h2>Timer</h2>
     </div>
@@ -15,6 +14,22 @@
         <input id="cb-timer"type="checkbox" onchange="switchTimer()"/>
         <label for="cb-timer">Timer</label>
     </div>
+
+    <div class="col-sm">
+        <input id="num-timer"type="number" value=60 onchange="changeTime()"/>
+        <label for="cb-timer">Tijd in secondes</label>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm">
+        <h2>Aantal foto's</h2>
+    </div>
+    <div class="col-sm">
+        <input id="num-amount" type="number" min="5" onchange="changeAmount()"/>
+        <label for="num-amount">Aantal plaatjes</label>
+    </div>
+    <div class="col-sm"></div>
 </div>
 
 <div class="row">
@@ -24,3 +39,4 @@
     </div>
     <div class="col-sm"></div>
 </div>
+

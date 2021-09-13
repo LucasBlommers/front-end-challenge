@@ -2,6 +2,8 @@ const url = "img/characters"
 var links = []
 var randomLinks = []
 var randomNames = []
+var amount = undefined
+
 
 var selectedName = undefined
 var selectedPhoto = undefined
@@ -18,28 +20,20 @@ var progress = "100%"
 
 function initialize(){
 	console.log("Initializing Smoelentrainer...")
-	loadSettings()
-	//Load the images
-	htmlResponse = httpGet(url)
-	var domResponse = new DOMParser().parseFromString(htmlResponse, "text/html")
-	console.log(domResponse)
-
-	imageLinks = domResponse.getElementsByTagName("a")
 	
-	console.log( imageLinks)
-	for(i=0;i<imageLinks.length; i++){
-		possibleLink = imageLinks[i]
-
-		if(possibleLink.href.includes(".png")){
-			console.log(possibleLink.href)
-			links.push(possibleLink.href)
-		}
+	loadImages()
+	amount = links.length
+	loadSettings()
+	//Update the links array
+	while(links.length > amount){
+		const randomLinkIndex = Math.floor(Math.random() * links.length)
+		links.splice(randomLinkIndex, 1)
 	}
 	const linkSize = links.length
 	//Randomize images
 	for(i=0;i<linkSize;i++){
 		//Generate a random number based on the length of links
-		randomLinkIndex = Math.floor(Math.random() * links.length)
+		const randomLinkIndex = Math.floor(Math.random() * links.length)
 		randomLinks.push(links[randomLinkIndex])
 		links.splice(randomLinkIndex, 1)
 	}
@@ -154,8 +148,18 @@ function loadMain(url){
 	}
 
 	if(url.includes("settings")){
+		//Load the images
+		loadImages()
 		//Load the settings
 		const loadedTimer = localStorage.getItem("timer")
+		const time = localStorage.getItem("time")
+		const amount = localStorage.getItem("amount")
+
+		//Initialize num amount
+		const numAmount = document.getElementById("num-amount")
+		numAmount.setAttribute("min", "5")
+		numAmount.setAttribute("max", links.length)
+		numAmount.setAttribute("value", links.length)
 
 		//Ensure elements are set based on the saved settings
 		if(loadedTimer != undefined){
@@ -163,6 +167,14 @@ function loadMain(url){
 			cbTimer.setAttribute("checked", "true")
 		}
 
+		if(time != undefined){
+			const numTime = document.getElementById("num-timer")
+			numTime.value = time
+		}
+
+		if(amount != undefined){
+			numAmount.value = amount
+		}
 	}
 }
 
@@ -268,4 +280,33 @@ function httpGet(url){
 function loadSettings(){
 	//Load timer setting
 	timer = localStorage.getItem("timer")
+
+	timeLimit = Number(localStorage.getItem("time")) * 1000
+	console.log("Time limit: " + timeLimit)
+
+	const loadedAmount = localStorage.getItem("amount")
+
+	if(loadedAmount != undefined){
+		amount = Number(loadedAmount)
+	}
+
+}
+
+function loadImages(){
+	//Load the images
+	htmlResponse = httpGet(url)
+	var domResponse = new DOMParser().parseFromString(htmlResponse, "text/html")
+	console.log(domResponse)
+
+	imageLinks = domResponse.getElementsByTagName("a")
+	
+	console.log( imageLinks)
+	for(i=0;i<imageLinks.length; i++){
+		possibleLink = imageLinks[i]
+
+		if(possibleLink.href.includes(".png")){
+			console.log(possibleLink.href)
+			links.push(possibleLink.href)
+		}
+	}
 }
